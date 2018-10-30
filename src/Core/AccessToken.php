@@ -74,10 +74,10 @@ class AccessToken
      *
      * @var string
      */
-    protected $prefix = 'easywechat.common.access_token.';
+    protected $prefix = 'wise.common.access_token.';
 
     // API
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
+    const API_TOKEN_GET = 'https://openapi.baidu.com/oauth/2.0/token';
 
     /**
      * Constructor.
@@ -220,14 +220,15 @@ class AccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'appid' => $this->appId,
-            'secret' => $this->secret,
-            'grant_type' => 'client_credential',
+            'client_id' => $this->appId,
+            'client_secret' => $this->secret,
+            'grant_type' => 'client_credentials',
+            'scope' => 'smartapp_snsapi_base',
         ];
 
         $http = $this->getHttp();
 
-        $token = $http->parseJSON($http->get(self::API_TOKEN_GET, $params));
+        $token = $http->parseJSON($http->post(self::API_TOKEN_GET, $params));
 
         if (empty($token[$this->tokenJsonKey])) {
             throw new HttpException('Request AccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));

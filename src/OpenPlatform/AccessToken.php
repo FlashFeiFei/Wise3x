@@ -41,17 +41,17 @@ class AccessToken extends CoreAccessToken
     /**
      * API.
      */
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
+    const API_TOKEN_GET = 'https://openapi.baidu.com/public/2.0/smartapp/auth/tp/token';
 
     /**
      * {@inheritdoc}.
      */
-    protected $queryName = 'component_access_token';
+    protected $queryName = 'access_token';
 
     /**
      * {@inheritdoc}.
      */
-    protected $tokenJsonKey = 'component_access_token';
+    protected $tokenJsonKey = 'access_token';
 
     /**
      * {@inheritdoc}.
@@ -78,18 +78,18 @@ class AccessToken extends CoreAccessToken
     public function getTokenFromServer()
     {
         $data = [
-            'component_appid' => $this->appId,
-            'component_appsecret' => $this->secret,
-            'component_verify_ticket' => $this->verifyTicket->getTicket(),
+            'client_id' => $this->appId,
+            'ticket' => $this->verifyTicket->getTicket(),
         ];
 
         $http = $this->getHttp();
 
-        $token = $http->parseJSON($http->json(self::API_TOKEN_GET, $data));
+        $token = $http->parseJSON($http->get(self::API_TOKEN_GET, $data));
 
-        if (empty($token[$this->tokenJsonKey])) {
-            throw new HttpException('Request ComponentAccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
+        if (empty($token['data']) || empty($token['data'][$this->tokenJsonKey])) {
+            throw new HttpException('Request ComponentAccessToken fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
         }
+        $token = $token['data'];
 
         return $token;
     }
