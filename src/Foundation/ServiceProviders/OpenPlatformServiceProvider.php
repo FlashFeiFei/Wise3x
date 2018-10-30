@@ -38,7 +38,6 @@ use Wise\OpenPlatform\EventHandlers;
 use Wise\OpenPlatform\Guard;
 use Wise\OpenPlatform\OpenPlatform;
 use Wise\OpenPlatform\VerifyTicket;
-use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -144,46 +143,6 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.app'] = function ($pimple) {
             return new Application($pimple['config']->toArray());
         };
-
-        // OAuth for OpenPlatform.
-        $pimple['open_platform.oauth'] = function ($pimple) {
-            $callback = $this->prepareCallbackUrl($pimple);
-            $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
-            $config = [
-                'wechat_open' => [
-                    'client_id' => $pimple['open_platform.authorizer']->getAppId(),
-                    'client_secret' => $pimple['open_platform.access_token'],
-                    'redirect' => $callback,
-                ],
-            ];
-            if ($pimple['config']->has('guzzle')) {
-                $config['guzzle'] = $pimple['config']['guzzle'];
-            }
-            $socialite = (new Socialite($config))->driver('wechat_open');
-
-            if (!empty($scopes)) {
-                $socialite->scopes($scopes);
-            }
-
-            return $socialite;
-        };
     }
 
-    /**
-     * Prepare the OAuth callback url for wechat.
-     *
-     * @param Container $pimple
-     *
-     * @return string
-     */
-    private function prepareCallbackUrl($pimple)
-    {
-        $callback = $pimple['config']->get('oauth.callback');
-        if (0 === stripos($callback, 'http')) {
-            return $callback;
-        }
-        $baseUrl = $pimple['request']->getSchemeAndHttpHost();
-
-        return $baseUrl.'/'.ltrim($callback, '/');
-    }
 }

@@ -63,7 +63,6 @@ class OpenPlatform
 
         return $this->fetch('app', function ($app) {
             $app['access_token'] = $this->fetch('authorizer_access_token');
-            $app['oauth'] = $this->fetch('oauth');
             $app['server'] = $this->fetch('server');
         });
     }
