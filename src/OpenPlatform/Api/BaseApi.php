@@ -66,12 +66,11 @@ class BaseApi extends AbstractOpenPlatform
      * So developers should NEVER call this method.
      * It'll called by: AuthorizerAccessToken::renewAccessToken()
      *
-     * @param $appId
      * @param $refreshToken
      *
      * @return \Wise\Support\Collection
      */
-    public function getAuthorizerToken($appId, $refreshToken)
+    public function getAuthorizerToken($refreshToken)
     {
         $params = [
             'grant_type' => 'app_to_tp_refresh_token',
