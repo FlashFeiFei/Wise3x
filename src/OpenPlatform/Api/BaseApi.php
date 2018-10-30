@@ -31,33 +31,19 @@ class BaseApi extends AbstractOpenPlatform
 {
     /**
      * Get auth info api.
+     * 通过授权码获取授权用户的信息
      */
-    const GET_AUTH_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth';
+    const GET_AUTH_INFO = 'https://openapi.baidu.com/rest/2.0/oauth/token';
 
     /**
      * Get authorizer token api.
+     * 通过refresh_token去刷新token
      */
-    const GET_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
-
-    /**
-     * Get authorizer info api.
-     */
-    const GET_AUTHORIZER_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info';
-
-    /**
-     * Get authorizer options api.
-     */
-    const GET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option';
-
-    /**
-     * Set authorizer options api.
-     */
-    const SET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option';
-
-    const GET_AUTHORIZER_LIST = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_list';
+    const GET_AUTHORIZER_TOKEN = 'https://openapi.baidu.com/rest/2.0/oauth/token';
 
     /**
      * Get authorization info.
+     * 通过授权码获取token
      *
      * @param $authCode
      *
@@ -66,11 +52,11 @@ class BaseApi extends AbstractOpenPlatform
     public function getAuthorizationInfo($authCode = null)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
-            'authorization_code' => $authCode ?: $this->request->get('auth_code'),
+            'code' => $authCode ?: $this->request->get('authorization_code'),
+            'grant_type' => 'app_to_tp_authorization_code'
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTH_INFO, $params]);
+        return $this->parseJSON('get', [self::GET_AUTH_INFO, $params]);
     }
 
     /**
@@ -88,87 +74,10 @@ class BaseApi extends AbstractOpenPlatform
     public function getAuthorizerToken($appId, $refreshToken)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $appId,
-            'authorizer_refresh_token' => $refreshToken,
+            'grant_type' => 'app_to_tp_refresh_token',
+            'refresh_token' => $refreshToken,
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $params]);
-    }
-
-    /**
-     * Get authorizer info.
-     *
-     * @param string $authorizerAppId
-     *
-     * @return \Wise\Support\Collection
-     */
-    public function getAuthorizerInfo($authorizerAppId)
-    {
-        $params = [
-            'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $authorizerAppId,
-        ];
-
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_INFO, $params]);
-    }
-
-    /**
-     * Get options.
-     *
-     * @param $authorizerAppId
-     * @param $optionName
-     *
-     * @return \Wise\Support\Collection
-     */
-    public function getAuthorizerOption($authorizerAppId, $optionName)
-    {
-        $params = [
-            'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName,
-        ];
-
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_OPTION, $params]);
-    }
-
-    /**
-     * Set authorizer option.
-     *
-     * @param $authorizerAppId
-     * @param $optionName
-     * @param $optionValue
-     *
-     * @return \Wise\Support\Collection
-     */
-    public function setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
-    {
-        $params = [
-            'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName,
-            'option_value' => $optionValue,
-        ];
-
-        return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $params]);
-    }
-
-    /**
-     * Get authorizer list.
-     *
-     * @param int $offset
-     * @param int $count
-     *
-     * @return \Wise\Support\Collection
-     */
-    public function getAuthorizerList($offset = 0, $count = 500)
-    {
-        $params = [
-            'component_appid' => $this->getAppId(),
-            'offset' => $offset,
-            'count' => $count,
-        ];
-
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_LIST, $params]);
+        return $this->parseJSON('get', [self::GET_AUTHORIZER_TOKEN, $params]);
     }
 }
