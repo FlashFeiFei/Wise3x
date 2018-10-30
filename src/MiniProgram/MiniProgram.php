@@ -43,4 +43,13 @@ class MiniProgram
 {
     use PrefixedContainer;
 
+    /**
+     * @return MiniProgram
+     */
+    public function createAuthorizerMiniProgram()
+    {
+        //重写mini_program的token为授权用户的token
+        $this->container['mini_program.access_token'] = $this->container['access_token'];
+        return $this;
+    }
 }

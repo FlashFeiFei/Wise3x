@@ -49,6 +49,8 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['mini_program.access_token'] = function ($pimple) {
+            //这个是自己的AccessToken,但是我没有写自己的智能小程序
+            //所以，这个组件会在MiniProgram的createAuthorizerMiniProgram方法中重置为授权用户的AccessToken
             return new AccessToken(
                 $pimple['config']['mini_program']['client_id'],
                 $pimple['config']['mini_program']['client_secret'],
