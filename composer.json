@@ -1,12 +1,14 @@
 {
-    "name": "liangyu/wise3x",
+    "name": "flashfeifei/Wise3X",
     "authors": [
         {
-            "name": "liangyu",
-            "email": "liangyu@22.cn"
+            "name": "flashfeifei",
+            "email": "51785816@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "pimple/pimple": "~3.0"
+    },
     "autoload": {
         "psr-4": {
             "Wise\\": "src/"
