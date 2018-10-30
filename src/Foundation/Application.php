@@ -25,6 +25,7 @@ class Application extends Container
 {
     protected $providers = [
         ServiceProviders\OpenPlatformServiceProvider::class,
+        ServiceProviders\MiniProgramServiceProvider::class,
     ];
 
     /**
