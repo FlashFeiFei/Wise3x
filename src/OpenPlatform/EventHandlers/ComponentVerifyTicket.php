@@ -53,6 +53,6 @@ class ComponentVerifyTicket extends EventHandler
      */
     public function handle($message)
     {
-        $this->verifyTicket->setTicket($message->get('ComponentVerifyTicket'));
+        $this->verifyTicket->setTicket($message->get('Ticket'));
     }
 }

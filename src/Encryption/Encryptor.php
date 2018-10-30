@@ -109,21 +109,16 @@ class Encryptor
      * @param string $msgSignature
      * @param string $nonce
      * @param string $timestamp
-     * @param string $postXML
+     * @param string $encrypt
      *
      * @return array
      *
      * @throws EncryptionException
      */
-    public function decryptMsg($msgSignature, $nonce, $timestamp, $postXML)
+    public function decryptMsg($msgSignature, $nonce, $timestamp, $encrypt)
     {
-        try {
-            $array = XML::parse($postXML);
-        } catch (BaseException $e) {
-            throw new EncryptionException('Invalid xml.', EncryptionException::ERROR_PARSE_XML);
-        }
 
-        $encrypted = $array['Encrypt'];
+        $encrypted = $encrypt;
 
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
 
@@ -131,7 +126,7 @@ class Encryptor
             throw new EncryptionException('Invalid Signature.', EncryptionException::ERROR_INVALID_SIGNATURE);
         }
 
-        return XML::parse($this->decrypt($encrypted, $this->appId));
+        return json_decode($this->decrypt($encrypted, $this->appId),true);
     }
 
     /**

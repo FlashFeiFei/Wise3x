@@ -56,15 +56,15 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
     {
         $pimple['open_platform.verify_ticket'] = function ($pimple) {
             return new VerifyTicket(
-                $pimple['config']['open_platform']['app_id'],
+                $pimple['config']['open_platform']['client_id'],
                 $pimple['cache']
             );
         };
 
         $pimple['open_platform.access_token'] = function ($pimple) {
             $accessToken = new AccessToken(
-                $pimple['config']['open_platform']['app_id'],
-                $pimple['config']['open_platform']['secret'],
+                $pimple['config']['open_platform']['client_id'],
+                $pimple['config']['open_platform']['client_secret'],
                 $pimple['cache']
             );
             $accessToken->setVerifyTicket($pimple['open_platform.verify_ticket']);
@@ -74,7 +74,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
 
         $pimple['open_platform.encryptor'] = function ($pimple) {
             return new Encryptor(
-                $pimple['config']['open_platform']['app_id'],
+                $pimple['config']['open_platform']['client_id'],
                 $pimple['config']['open_platform']['token'],
                 $pimple['config']['open_platform']['aes_key']
             );

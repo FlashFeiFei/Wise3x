@@ -37,7 +37,7 @@ class Guard extends ServerGuard
     const EVENT_AUTHORIZED = 'authorized';
     const EVENT_UNAUTHORIZED = 'unauthorized';
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
-    const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
+    const EVENT_COMPONENT_VERIFY_TICKET = 'ticket';
 
     /**
      * Event handlers.
@@ -87,10 +87,10 @@ class Guard extends ServerGuard
     {
         $message = $this->getMessage();
 
-        // Handle Messages.
-        if (isset($message['MsgType'])) {
-            return parent::serve();
-        }
+//        // Handle Messages.智能小程序目前处理tick之外没有别的
+//        if (isset($message['MsgType'])) {
+//            return parent::serve();
+//        }
 
         Log::debug('OpenPlatform Request received:', [
             'Method' => $this->request->getMethod(),
@@ -124,14 +124,14 @@ class Guard extends ServerGuard
 
         $message = new Collection($message);
 
-        $infoType = $message->get('InfoType');
+        $infoType = $message->get('MsgType');
 
         if ($handler = $this->getHandler($infoType)) {
             $handler->handle($message);
         } else {
             Log::notice("No existing handler for '{$infoType}'.");
         }
-
+        //执行自定义的回调函数
         if ($messageHandler = $this->getMessageHandler()) {
             call_user_func_array($messageHandler, [$message]);
         }

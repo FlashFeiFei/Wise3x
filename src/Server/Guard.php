@@ -465,10 +465,10 @@ class Guard
             }
 
             $message = $this->encryptor->decryptMsg(
-                $this->request->get('msg_signature'),
-                $this->request->get('nonce'),
-                $this->request->get('timestamp'),
-                $content
+                $content['MsgSignature'],
+                $content['Nonce'],
+                $content['TimeStamp'],
+                $content['Encrypt']
             );
         } else {
             $message = XML::parse($content);
@@ -484,6 +484,7 @@ class Guard
      */
     private function isSafeMode()
     {
-        return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
+//        return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
+        return true;
     }
 }
