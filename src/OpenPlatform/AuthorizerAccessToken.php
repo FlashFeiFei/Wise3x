@@ -87,13 +87,12 @@ class AuthorizerAccessToken extends BaseAccessToken
     {
         $token = $this->authorizer->getApi()
             ->getAuthorizerToken(
-                $this->authorizer->getAppId(),
                 $this->authorizer->getRefreshToken()
             );
 
-        $this->authorizer->setAccessToken($token['authorizer_access_token'], $token['expires_in'] - 1500);
+        $this->authorizer->setAccessToken($token['access_token'], $token['expires_in'] - 1500);
 
-        return $token['authorizer_access_token'];
+        return $token['access_token'];
     }
 
     /**
