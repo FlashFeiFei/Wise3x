@@ -35,12 +35,12 @@ class PreAuthorization extends AbstractOpenPlatform
     /**
      * Create pre auth code url.
      */
-    const CREATE_PRE_AUTH_CODE = 'https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode';
+    const CREATE_PRE_AUTH_CODE = 'https://openapi.baidu.com/rest/2.0/smartapp/tp/createpreauthcode';
 
     /**
      * Pre auth link.
      */
-    const PRE_AUTH_LINK = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s';
+    const PRE_AUTH_LINK = 'http://smartprogram.baidu.com/mappconsole/tp/authorization?client_id=%s&pre_auth_code=%s&redirect_uri=%s';
 
     /**
      * Get pre auth code.
@@ -51,17 +51,15 @@ class PreAuthorization extends AbstractOpenPlatform
      */
     public function getCode()
     {
-        $data = [
-            'component_appid' => $this->getAppId(),
-        ];
+        $data = [];
 
-        $result = $this->parseJSON('json', [self::CREATE_PRE_AUTH_CODE, $data]);
+        $result = $this->parseJSON('get', [self::CREATE_PRE_AUTH_CODE, $data]);
 
-        if (empty($result['pre_auth_code'])) {
+        if (empty($result['data']) || empty($result['data']['pre_auth_code'])) {
             throw new InvalidArgumentException('Invalid response.');
         }
 
-        return $result['pre_auth_code'];
+        return $result['data']['pre_auth_code'];
     }
 
     /**
