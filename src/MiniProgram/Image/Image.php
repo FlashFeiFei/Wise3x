@@ -11,7 +11,7 @@ namespace Wise\MiniProgram\Image;
 use Wise\MiniProgram\Core\AbstractMiniProgram;
 use Wise\Core\Exceptions\InvalidArgumentException;
 
-class image extends AbstractMiniProgram
+class Image extends AbstractMiniProgram
 {
     //图片上传
     const API_UPLOAD_IMAGE = 'https://openapi.baidu.com/rest/2.0/smartapp/upload/image';

@@ -23,13 +23,11 @@
 namespace Wise\Foundation\ServiceProviders;
 
 use Wise\MiniProgram\AccessToken;
-use Wise\MiniProgram\Material\Temporary;
 use Wise\MiniProgram\MiniProgram;
-use Wise\MiniProgram\Notice\Notice;
-use Wise\MiniProgram\QRCode\QRCode;
+use Wise\MiniProgram\Image\Image;
+use Wise\MiniProgram\Info\Info;
 use Wise\MiniProgram\Sns\Sns;
-use Wise\MiniProgram\Staff\Staff;
-use Wise\MiniProgram\Stats\Stats;
+use Wise\MiniProgram\Package\Package;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -58,36 +56,21 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['mini_program.staff'] = function ($pimple) {
-            return new Staff($pimple['mini_program.access_token']);
+        $pimple['mini_program.image'] = function ($pimple) {
+            return new Image($pimple['mini_program.access_token']);
         };
 
-        $pimple['mini_program.notice'] = function ($pimple) {
-            return new Notice($pimple['mini_program.access_token']);
+        $pimple['mini_program.info'] = function ($pimple) {
+            return new Info($pimple['mini_program.access_token']);
         };
 
-        $pimple['mini_program.material_temporary'] = function ($pimple) {
-            return new Temporary($pimple['mini_program.access_token']);
-        };
-
-        $pimple['mini_program.stats'] = function ($pimple) {
-            return new Stats(
-                $pimple['mini_program.access_token'],
-                $pimple['config']['mini_program']
-            );
+        $pimple['mini_program.package'] = function ($pimple) {
+            return new Package($pimple['mini_program.access_token']);
         };
 
         $pimple['mini_program.sns'] = function ($pimple) {
             return new Sns(
-                $pimple['mini_program.access_token'],
-                $pimple['config']['mini_program']
-            );
-        };
-
-        $pimple['mini_program.qrcode'] = function ($pimple) {
-            return new QRCode(
-                $pimple['mini_program.access_token'],
-                $pimple['config']['mini_program']
+                $pimple['mini_program.access_token']
             );
         };
 

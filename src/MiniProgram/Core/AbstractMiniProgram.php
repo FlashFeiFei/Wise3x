@@ -31,22 +31,12 @@ use Wise\Core\AbstractAPI;
 class AbstractMiniProgram extends AbstractAPI
 {
     /**
-     * Mini program config.
-     *
-     * @var array
-     */
-    protected $config;
-
-    /**
      * AbstractMiniProgram constructor.
      *
      * @param \Wise\MiniProgram\AccessToken $accessToken
-     * @param array                               $config
      */
-    public function __construct($accessToken, $config)
+    public function __construct($accessToken)
     {
         parent::__construct($accessToken);
-
-        $this->config = $config;
     }
 }

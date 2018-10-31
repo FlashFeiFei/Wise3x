@@ -30,14 +30,10 @@ use Wise\Support\Traits\PrefixedContainer;
 
 /**
  * Class MiniProgram.
- *
- * @property \Wise\MiniProgram\Server\Guard $server
  * @property \Wise\MiniProgram\Sns\Sns $sns
- * @property \Wise\MiniProgram\Notice\Notice $notice
- * @property \Wise\MiniProgram\Staff\Staff $staff
- * @property \Wise\MiniProgram\QRCode\QRCode $qrcode
- * @property \Wise\MiniProgram\Material\Temporary $material_temporary
- * @property \Wise\MiniProgram\Stats\Stats $stats
+ * @property \Wise\MiniProgram\Image\Image $image
+ * @property \Wise\MiniProgram\Info\Info $info
+ * @property \Wise\MiniProgram\Package\Package $package
  */
 class MiniProgram
 {
