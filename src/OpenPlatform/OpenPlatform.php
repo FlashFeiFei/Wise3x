@@ -49,7 +49,7 @@ class OpenPlatform
     /**
      * Create an instance of the EasyWeChat for the given authorizer.
      *
-     * @param string $appId        Authorizer AppId
+     * @param string $appId Authorizer AppId
      * @param string $refreshToken Authorizer refresh-token
      *
      * @return \Wise\Foundation\Application
@@ -64,6 +64,8 @@ class OpenPlatform
         return $this->fetch('app', function ($app) {
             $app['access_token'] = $this->fetch('authorizer_access_token');
             $app['server'] = $this->fetch('server');
+            //小程序token
+            $app['mini_program.access_token'] = $app['access_token'];
         });
     }
 
@@ -71,7 +73,7 @@ class OpenPlatform
      * Quick access to the base-api.
      *
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
